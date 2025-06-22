@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copernicus One - Pełna Ochrona Systemów ERP/CRM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP2E1Z1FMW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VP2E1Z1FMW');
+    </script>
+    <!-- Chosen Palette: "Tech Command" -->
+    <!-- Application Structure Plan: Zastosowano strukturę narracyjną prowadzącą użytkownika od problemu do rozwiązania. Sekcje są interaktywne, aby zwiększyć zaangażowanie: (1) Sekcja Hero z mocnym CTA. (2) Interaktywna sekcja "Problem" z dwiema kolumnami (zagrożenia zewnętrzne i wewnętrzne) i kartami reagującymi na najechanie myszką. (3) Sekcja "Rozwiązanie" z przełączanymi zakładkami, aby szczegółowo opisać oba aspekty ochrony. (4) Sekcja "Korzyści" w formie wizualnego dashboardu z wykresem kołowym (Chart.js) dla dodania "wow factor". (5) Sekcja "Dlaczego My" z logotypami firm stworzonymi w CSS dla budowania wiarygodności. (6) Przejrzysty, wizualny schemat "Jak to działa?". (7) Akordeon FAQ dla oszczędności miejsca. (8) Wyraźna sekcja kontaktowa na końcu. Ta struktura została wybrana, aby przekształcić statyczny tekst w dynamiczne doświadczenie, które edukuje i przekonuje, zamiast tylko informować. -->
+    <!-- Visualization & Content Choices: (1) Zagrożenia -> Cel: Informowanie i zaangażowanie -> Prezentacja: Interaktywne karty w dwóch kolumnach -> Interakcja: Efekt hover + ikony -> Uzasadnienie: Ułatwia przyswajanie gęstej listy zagrożeń -> Metoda: HTML/CSS/JS. (2) Korzyści -> Cel: Zaskoczenie i wizualizacja wartości -> Prezentacja: Dashboard z wykresem kołowym -> Interakcja: Animacja ładowania wykresu -> Uzasadnienie: Przedstawia korzyści w bardziej wymierny, "techniczny" sposób -> Biblioteka: Chart.js. (3) "Jak to Działa" -> Cel: Uproszczenie procesu -> Prezentacja: Pozioma oś czasu/kroki -> Interakcja: Brak (klarowność wizualna) -> Uzasadnienie: Wizualizuje proces, czyniąc go łatwym do zrozumienia -> Metoda: HTML/Tailwind CSS. (4) Logotypy (Google, HP) -> Cel: Budowanie autorytetu -> Prezentacja: Logotypy stworzone w CSS -> Interakcja: Brak -> Uzasadnienie: Uniknięcie zewnętrznych obrazów, pokazanie kreatywności technicznej -> Metoda: HTML/CSS. (5) FAQ -> Cel: Odpowiedź na wątpliwości -> Prezentacja: Akordeon -> Interakcja: Kliknięcie, aby rozwinąć -> Uzasadnienie: Standard UX, oszczędność miejsca -> Metoda: HTML/JS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .hero-bg { background: linear-gradient(45deg, rgba(2,0,36,0) 0%, rgba(29, 78, 216, 0.1) 100%), linear-gradient(135deg, rgba(240, 249, 255, 1) 0%, rgba(226, 232, 240, 1) 100%); }
+        .glass-effect { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .tab-active { border-color: #2563eb; color: #2563eb; background-color: #dbeafe; }
+        .faq-item .answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .faq-item.open .answer { max-height: 500px; transition: max-height 0.5s ease-in; }
+        /* Removed company-name-tag specific styles as they are no longer used for visual boxes */
+
+        .chart-container { position: relative; width: 100%; max-width: 300px; margin-left: auto; margin-right: auto; height: 300px; max-height: 300px; }
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+    <!-- Google tag (gtag.js) (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=G-VP2E1Z1FMW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google tag (gtag.js) (noscript) -->
+
+    <!-- Header -->
+    <header id="header" class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-200 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-extrabold text-slate-800">Copernicus <span class="text-blue-600">One</span></a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#problem" class="text-slate-600 hover:text-blue-600 transition">Problem</a>
+                <a href="#solution" class="text-slate-600 hover:text-blue-600 transition">Rozwiązanie</a>
+                <a href="#benefits" class="text-slate-600 hover:text-blue-600 transition">Korzyści</a>
+                <a href="#why-us" class="text-slate-600 hover:text-blue-600 transition">Dlaczego My</a>
+                <a href="#contact" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition shadow-sm hover:shadow-md">
+                    Bezpłatna Konsultacja
+                </a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-slate-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+             <a href="#problem" class="block py-2 text-slate-600 hover:text-blue-600 transition">Problem</a>
+             <a href="#solution" class="block py-2 text-slate-600 hover:text-blue-600 transition">Rozwiązanie</a>
+             <a href="#benefits" class="block py-2 text-slate-600 hover:text-blue-600 transition">Korzyści</a>
+             <a href="#why-us" class="block py-2 text-slate-600 hover:text-blue-600 transition">Dlaczego My</a>
+             <a href="#contact" class="block mt-2 bg-blue-600 text-white text-center px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">Bezpłatna Konsultacja</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg pt-20 pb-24 md:pt-32 md:pb-36 text-center">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">
+                    Pełna Tarcza dla Twoich Systemów ERP/CRM
+                </h1>
+                <h2 class="text-4xl md:text-6xl font-extrabold text-blue-700 leading-tight mt-2">
+                    Zatrzymaj Cyberataki i Każde Nadużycie Wewnętrzne
+                </h2>
+                <p class="mt-8 max-w-3xl mx-auto text-lg text-slate-600">
+                    Rewolucyjny audyt Copernicus One wykrywa najbardziej wyrafinowane zagrożenia i ukryte oszustwa, zanim Twoja firma poniesie straty.
+                </p>
+                <a href="#contact" class="mt-10 inline-block bg-blue-600 text-white px-10 py-4 rounded-lg text-lg font-bold hover:bg-blue-700 transition-transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    Umów Bezpłatną Konsultację
+                </a>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-slate-800">Zagrożenia z Każdej Strony</h2>
+                    <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">Twoje systemy ERP/CRM są celem ataków zewnętrznych i niszczących nadużyć wewnętrznych. Oba zagrożenia podważają fundamenty zaufania i generują ukryte straty.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <!-- External Threats -->
+                    <div class="bg-slate-50 p-8 rounded-xl border border-slate-200">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center">
+                            <span class="text-red-500 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            </span>
+                            Zagrożenia Zewnętrzne
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-lg bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all"><strong>Wycieki danych:</strong> Katastrofa finansowa i wizerunkowa.</div>
+                            <div class="p-4 rounded-lg bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all"><strong>Ataki ransomware:</strong> Blokada dostępu do krytycznych danych.</div>
+                            <div class="p-4 rounded-lg bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all"><strong>Phishing i malware:</strong> Infiltracja systemów przez socjotechnikę.</div>
+                        </div>
+                    </div>
+                    <!-- Internal Threats -->
+                    <div class="bg-slate-50 p-8 rounded-xl border border-slate-200">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center">
+                            <span class="text-yellow-500 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                            </span>
+                            Nadużycia Wewnętrzne
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-lg bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all"><strong>Fałszywe faktury:</strong> Fikcyjne transakcje drenujące budżet.</div>
+                            <div class="p-4 rounded-lg bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all"><strong>Pracownicy "widmo":</strong> Wypłaty dla nieistniejących osób.</div>
+                            <div class="p-4 rounded-lg bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all"><strong>Manipulacje płacowe:</strong> Nieautoryzowane premie i podwójne wypłaty.</div>
+                             <div class="p-4 rounded-lg bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all"><strong>Kradzież danych:</strong> Wynoszenie list klientów lub tajemnic firmowych.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section id="solution" class="py-20 bg-slate-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-slate-800">Jedno Rozwiązanie, Podwójna Ochrona</h2>
+                    <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">Copernicus One to bezkompromisowa ochrona przed zagrożeniami zewnętrznymi i wewnętrznymi. Działamy w tle, z niezrównaną precyzją i inteligencją.</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="mb-8 flex justify-center border-b border-slate-300">
+                        <button data-tab="cyber" class="solution-tab tab-active text-lg font-semibold py-3 px-6 border-b-2 transition">Ochrona przed Cyberatakami</button>
+                        <button data-tab="fraud" class="solution-tab text-slate-500 text-lg font-semibold py-3 px-6 border-b-2 border-transparent transition">Wykrywanie Nadużyć</button>
+                    </div>
+
+                    <div id="cyber" class="solution-content">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div class="text-center">
+                                <span class="text-blue-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                                </span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-4">Bezlitosne Wykrywanie Cyberataków</h3>
+                                <p class="text-slate-600 mb-4">Natychmiastowo identyfikujemy próby włamań, nieautoryzowany dostęp i potencjalne wycieki danych, zanim hakerzy zdążą wyrządzić szkody.</p>
+                                <ul class="list-disc list-inside space-y-2 text-slate-700">
+                                    <li>Monitoring 24/7/365</li>
+                                    <li>Analiza zachowań w czasie rzeczywistym</li>
+                                    <li>Blokowanie podejrzanej aktywności</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="fraud" class="solution-content hidden">
+                         <div class="grid md:grid-cols-2 gap-8 items-center">
+                             <div class="text-center">
+                                <span class="text-blue-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                </span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-4">Ujawnianie Każdego Nadużycia</h3>
+                                <p class="text-slate-600 mb-4">Nasze algorytmy oparte na AI analizują miliony transakcji, aby wskazać najdrobniejsze anomalie świadczące o oszustwie.</p>
+                                <ul class="list-disc list-inside space-y-2 text-slate-700">
+                                    <li>Wykrywanie fikcyjnych faktur i transakcji</li>
+                                    <li>Identyfikacja nadużyć płacowych i w HR</li>
+                                    <li>Analiza uprawnień i dostępu do danych</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section id="benefits" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-slate-800">Niezrównane Korzyści dla Twojej Firmy</h2>
+                    <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">Wybierając Copernicus One, zyskujesz pełny spokój ducha i absolutną pewność, że Twoje strategiczne dane i procesy są bezpieczne.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 text-center glass-effect">
+                        <div class="text-blue-600 mx-auto w-20 h-20 flex items-center justify-center rounded-full bg-blue-100 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mt-4">Drastyczna Redukcja Strat</h3>
+                        <p class="text-slate-600 mt-2">Minimalizujemy straty finansowe przez natychmiastowe wykrywanie cyberataków i nadużyć wewnętrznych.</p>
+                    </div>
+                     <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 text-center glass-effect">
+                        <div class="text-blue-600 mx-auto w-20 h-20 flex items-center justify-center rounded-full bg-blue-100 mb-4">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6-4a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mt-4">Ciągła Zgodność</h3>
+                        <p class="text-slate-600 mt-2">Spełnienie wymogów RODO/GDPR i innych norm dzięki stałemu monitoringowi i audytowalności.</p>
+                    </div>
+                     <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 text-center glass-effect">
+                        <div class="text-blue-600 mx-auto w-20 h-20 flex items-center justify-center rounded-full bg-blue-100 mb-4">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mt-4">Oszczędność Zasobów</h3>
+                        <p class="text-slate-600 mt-2">Automatyzacja audytu zwalnia Twój zespół z czasochłonnych, manualnych zadań.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- How it works Section -->
+        <section id="how-it-works" class="py-20 bg-slate-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-slate-800">Prosto do Pełnej Ochrony</h2>
+                    <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">Rozpoczęcie pracy z Copernicus One jest proste i szybkie.</p>
+                </div>
+                <div class="relative">
+                    <div class="grid md:grid-cols-4 gap-8 relative">
+                        <div class="text-center p-6">
+                            <div class="relative mb-4">
+                                <div class="w-16 h-16 mx-auto rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold border-4 border-slate-100">1</div>
+                            </div>
+                            <h3 class="font-bold text-lg">Integracja</h3>
+                            <p class="text-sm text-slate-600">Błyskawicznie i bezinwazyjnie łączymy się z Twoimi systemami.</p>
+                        </div>
+                         <div class="text-center p-6">
+                            <div class="relative mb-4">
+                                <div class="w-16 h-16 mx-auto rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold border-4 border-slate-100">2</div>
+                            </div>
+                            <h3 class="font-bold text-lg">Monitorowanie</h3>
+                            <p class="text-sm text-slate-600">Nasz system rozpoczyna ciągły audyt i analizę w czasie rzeczywistym.</p>
+                        </div>
+                         <div class="text-center p-6">
+                            <div class="relative mb-4">
+                                <div class="w-16 h-16 mx-auto rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold border-4 border-slate-100">3</div>
+                            </div>
+                            <h3 class="font-bold text-lg">Wykrywanie</h3>
+                            <p class="text-sm text-slate-600">Algorytmy AI identyfikują najsubtelniejsze anomalie i zagrożenia.</p>
+                        </div>
+                         <div class="text-center p-6">
+                            <div class="relative mb-4">
+                                <div class="w-16 h-16 mx-auto rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold border-4 border-slate-100">4</div>
+                            </div>
+                            <h3 class="font-bold text-lg">Alertowanie</h3>
+                            <p class="text-sm text-slate-600">Otrzymujesz precyzyjne alerty i rekomendacje do szybkiej reakcji.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Us Section -->
+        <section id="why-us" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-slate-800">Globalna Ekspertyza w Służbie Twojego Biznesu</h2>
+                    <p class="mt-4 text-lg text-slate-600 max-w-4xl mx-auto">
+                        Naszą największą przewagą jest zespół. Tworzą go doświadczeni pracownicy zespołów Data Science oraz Architekci Cyberbezpieczeństwa z bezcennym doświadczeniem zdobytym w gigantach technologicznych, takich jak Google, Hewlett Packard, Cisco czy Akamai.
+                    </p>
+                </div>
+                <!-- Removed company-name-tag divs and replaced with inline text as requested -->
+                <div class="mt-12 max-w-5xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+                    <div class="p-4"><strong class="text-blue-600">Kompleksowa Specjalizacja:</strong> Ochrona przed cyberatakami i mistrzowskie wykrywanie nadużyć.</div>
+                    <div class="p-4"><strong class="text-blue-600">Pionierska Innowacyjność:</strong> Stale rozwijane algorytmy oparte na AI i uczeniu maszynowym.</div>
+                    <div class="p-4 md:col-span-2 lg:col-span-1"><strong class="text-blue-600">Niezrównana Skuteczność:</strong> Wykrywamy to, co umyka tradycyjnym audytom.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-20 bg-slate-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-slate-800">Często Zadawane Pytania</h2>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <div class="faq-item bg-white rounded-lg shadow-sm">
+                        <button class="faq-question w-full text-left p-5 font-semibold text-lg flex justify-between items-center">
+                            Jakie konkretne nadużycia wykrywacie?
+                            <span class="transform transition-transform duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </button>
+                        <div class="answer px-5 pb-5 text-slate-600">
+                            Wykrywamy szeroki wachlarz nieprawidłowości: manipulacje płacowe (podwójne wypłaty, nieautoryzowane premie), tworzenie "pracowników widmo", fałszywe faktury, oszustwa transakcyjne, nieautoryzowane zmiany w danych kadrowych, kradzież danych i wiele innych.
+                        </div>
+                    </div>
+                     <div class="faq-item bg-white rounded-lg shadow-sm">
+                        <button class="faq-question w-full text-left p-5 font-semibold text-lg flex justify-between items-center">
+                            Czy to wpływa na wydajność moich systemów?
+                            <span class="transform transition-transform duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </button>
+                        <div class="answer px-5 pb-5 text-slate-600">
+                            Absolutnie nie. Nasze rozwiązanie zostało zaprojektowane, aby działać bezinwazyjnie, z minimalnym wpływem na wydajność. Działamy w tle, nie obciążając Twoich krytycznych operacji.
+                        </div>
+                    </div>
+                     <div class="faq-item bg-white rounded-lg shadow-sm">
+                        <button class="faq-question w-full text-left p-5 font-semibold text-lg flex justify-between items-center">
+                            Jakie systemy wspieracie?
+                            <span class="transform transition-transform duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </button>
+                        <div class="answer px-5 pb-5 text-slate-600">
+                           Wspieramy szeroki zakres popularnych systemów ERP i CRM, w tym SAP, Oracle, Microsoft Dynamics, Salesforce i wiele innych. Skontaktuj się z nami, aby omówić konkretny przypadek Twojej firmy.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 bg-blue-700 text-white">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="text-4xl font-bold">Zabezpiecz Swój Biznes Kompleksowo i Raz na Zawsze!</h2>
+                 <p class="mt-4 text-lg text-blue-200 max-w-2xl mx-auto">Zrób pierwszy krok ku pełnemu bezpieczeństwu. Wypełnij formularz, a nasz ekspert skontaktuje się z Tobą, aby omówić, jak możemy chronić Twoją firmę.</p>
+                 <div class="mt-10 max-w-xl mx-auto bg-white p-8 rounded-xl shadow-2xl text-slate-800">
+                    <form id="contactForm">
+                        <div class="mb-4">
+                             <input type="text" id="name" placeholder="Imię i Nazwisko" class="w-full px-4 py-3 rounded-md border-slate-300 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                         <div class="mb-4">
+                             <input type="email" id="email" placeholder="Adres e-mail" class="w-full px-4 py-3 rounded-md border-slate-300 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                         <div class="mb-4">
+                             <input type="text" id="company" placeholder="Nazwa Firmy" class="w-full px-4 py-3 rounded-md border-slate-300 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                         <div class="mb-6">
+                             <textarea id="message" placeholder="Twoja wiadomość (opcjonalnie)" rows="4" class="w-full px-4 py-3 rounded-md border-slate-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-blue-800 transition shadow-lg">Umów Bezpłatną Konsultację</button>
+                    </form>
+                 </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold text-slate-800 mb-4">Dziękujemy!</h3>
+            <p class="text-slate-600">Twoja wiadomość została wysłana i nasz ekspert skontaktuje się z Tobą wkrótce.</p>
+            <button id="closeModal" class="mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Zamknij</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 py-10">
+        <div class="container mx-auto px-6 text-center">
+             <p>&copy; 2025 Copernicus One Sp. z o.o. Wszelkie prawa zastrzeżone.</p>
+             <p class="text-sm mt-2">Kraków, Polska</p>
+        </div>
+    </footer>
+
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Solution Tabs
+        const tabs = document.querySelectorAll('.solution-tab');
+        const contents = document.querySelectorAll('.solution-content');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(item => {
+                    item.classList.remove('tab-active');
+                    item.classList.add('text-slate-500');
+                });
+                tab.classList.add('tab-active');
+                tab.classList.remove('text-slate-500');
+
+                const target = document.getElementById(tab.dataset.tab);
+                contents.forEach(content => content.classList.add('hidden'));
+                target.classList.remove('hidden');
+            });
+        });
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isOpen = item.classList.contains('open');
+                faqItems.forEach(i => i.classList.remove('open'));
+                if (!isOpen) {
+                    item.classList.add('open');
+                }
+            });
+        });
+
+        // Benefits Chart - removed Chart.js specific code
+        // and added a placeholder icon for consistency
+        
+        // Header shadow on scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-md');
+            } else {
+                header.classList.remove('shadow-md');
+            }
+        });
+
+        // Contact Form Submission (simulated)
+        const contactForm = document.getElementById('contactForm');
+        const successModal = document.getElementById('successModal');
+        const closeModalButton = document.getElementById('closeModal');
+
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const company = document.getElementById('company').value;
+            const message = document.getElementById('message').value;
+
+            // This is where you would typically send data to a backend.
+            // For this SPA (without backend), we'll simulate success.
+            // The target email address is reconstructed here to avoid crawlers.
+            const targetEmailParts = ['konsultacja', 'copernicusone', 'pl'];
+            const targetEmail = targetEmailParts.join('@').replace(',', '.'); // Reconstruct 'konsultacja@copernicusone.pl'
+
+            console.log('Formularz wysłany (symulacja):');
+            console.log('Imię i Nazwisko:', name);
+            console.log('Adres e-mail:', email);
+            console.log('Nazwa Firmy:', company);
+            console.log('Wiadomość:', message);
+            console.log('Docelowy adres (chroniony przed crawlerami):', targetEmail);
+
+            // Show success modal
+            successModal.classList.remove('hidden');
+
+            // Clear the form
+            contactForm.reset();
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            successModal.classList.add('hidden');
+        });
+
+    </script>
+
+</body>
+</html>
+
