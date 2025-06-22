@@ -35,27 +35,6 @@
         /* Removed company-name-tag specific styles as they are no longer used for visual boxes */
 
         .chart-container { position: relative; width: 100%; max-width: 300px; margin-left: auto; margin-right: auto; height: 300px; max-height: 300px; }
-        /* Modal styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            text-align: center;
-        }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -343,36 +322,18 @@
         <section id="contact" class="py-24 bg-blue-700 text-white">
             <div class="container mx-auto px-6 text-center">
                  <h2 class="text-4xl font-bold">Zabezpiecz Swój Biznes Kompleksowo i Raz na Zawsze!</h2>
-                 <p class="mt-4 text-lg text-blue-200 max-w-2xl mx-auto">Zrób pierwszy krok ku pełnemu bezpieczeństwu. Wypełnij formularz, a nasz ekspert skontaktuje się z Tobą, aby omówić, jak możemy chronić Twoją firmę.</p>
-                 <div class="mt-10 max-w-xl mx-auto bg-white p-8 rounded-xl shadow-2xl text-slate-800">
-                    <form id="contactForm">
-                        <div class="mb-4">
-                             <input type="text" id="name" placeholder="Imię i Nazwisko" class="w-full px-4 py-3 rounded-md border-slate-300 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                         <div class="mb-4">
-                             <input type="email" id="email" placeholder="Adres e-mail" class="w-full px-4 py-3 rounded-md border-slate-300 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                         <div class="mb-4">
-                             <input type="text" id="company" placeholder="Nazwa Firmy" class="w-full px-4 py-3 rounded-md border-slate-300 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                         <div class="mb-6">
-                             <textarea id="message" placeholder="Twoja wiadomość (opcjonalnie)" rows="4" class="w-full px-4 py-3 rounded-md border-slate-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-blue-800 transition shadow-lg">Umów Bezpłatną Konsultację</button>
-                    </form>
+                 <p class="mt-4 text-lg text-blue-200 max-w-2xl mx-auto">Zrób pierwszy krok ku pełnemu bezpieczeństwu. Umów się na bezpłatną konsultację z naszym ekspertem, aby omówić, jak możemy chronić Twoją firmę.</p>
+                 <div class="mt-10">
+                    <a href="https://outlook.office.com/book/CopernicusOne@copernicusone.pl/s/U4e2skYHWE2MwS-W1OO16w2?ismsaljsauthenabled" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="inline-block bg-white text-blue-700 px-12 py-6 rounded-xl text-xl font-bold hover:bg-blue-50 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:scale-105">
+                        Umów Bezpłatną Konsultację
+                    </a>
                  </div>
             </div>
         </section>
     </main>
-
-    <!-- Success Modal -->
-    <div id="successModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <h3 class="text-2xl font-bold text-slate-800 mb-4">Dziękujemy!</h3>
-            <p class="text-slate-600">Twoja wiadomość została wysłana i nasz ekspert skontaktuje się z Tobą wkrótce.</p>
-            <button id="closeModal" class="mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Zamknij</button>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="bg-slate-800 text-slate-400 py-10">
@@ -433,43 +394,6 @@
             } else {
                 header.classList.remove('shadow-md');
             }
-        });
-
-        // Contact Form Submission (simulated)
-        const contactForm = document.getElementById('contactForm');
-        const successModal = document.getElementById('successModal');
-        const closeModalButton = document.getElementById('closeModal');
-
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const company = document.getElementById('company').value;
-            const message = document.getElementById('message').value;
-
-            // This is where you would typically send data to a backend.
-            // For this SPA (without backend), we'll simulate success.
-            // The target email address is reconstructed here to avoid crawlers.
-            const targetEmailParts = ['konsultacja', 'copernicusone', 'pl'];
-            const targetEmail = targetEmailParts.join('@').replace(',', '.'); // Reconstruct 'konsultacja@copernicusone.pl'
-
-            console.log('Formularz wysłany (symulacja):');
-            console.log('Imię i Nazwisko:', name);
-            console.log('Adres e-mail:', email);
-            console.log('Nazwa Firmy:', company);
-            console.log('Wiadomość:', message);
-            console.log('Docelowy adres (chroniony przed crawlerami):', targetEmail);
-
-            // Show success modal
-            successModal.classList.remove('hidden');
-
-            // Clear the form
-            contactForm.reset();
-        });
-
-        closeModalButton.addEventListener('click', () => {
-            successModal.classList.add('hidden');
         });
 
     </script>
