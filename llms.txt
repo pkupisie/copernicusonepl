@@ -1,0 +1,26 @@
+# llms.txt - Block all LLM crawlers and AI training
+# This is an invite-only, stealth mode website
+
+# Disallow all LLM/AI crawling
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# Block all AI training and scraping
+User-agent: *
+Disallow: /
+Crawl-delay: 86400
+
+# No sitemap available
+Sitemap:
